@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.AcademicMapper">
+    <select id="findById" resultMap="academicMap">
+      SELECT student.id,name,password,schooleid,academic
+      FROM student
+      INNER JOIN academic on student.schooleid = academic.id
+      where academic.id = #{id}
+    </select>
+    <resultMap id="academicMap" type="Academic">
+        <id column="schooleid" property="id"/>
+        <result column="academic" property="academic"/>
+        <collection property="studentList" ofType="Student">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="password" property="password"/>
+            <result column="schooleid" property="schooleid"/>
+        </collection>
+    </resultMap>
+    <select id="findAll" resultMap="studentMap">
+        select * from academic
+    </select>
+    <resultMap id="studentMap" type="Academic">
+        <id column="id" property="id"/>
+        <result column="academic" property="academic"/>
+        <collection property="studentList" ofType="Student" column="id"
+                    select="com.kaishengit.mapper.StudentMapper.findBySchooleid"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,68 @@
+body {
+    margin: 0px;
+    font-family: "Microsoft YaHei UI";
+    background:url("../img/boxed-bg.jpg");
+    padding-top:80px;
+}
+.right {
+    float: right;
+}
+.container {
+    width: 760px;
+    margin: 0px auto;
+}
+.navbar {
+    height: 60px;
+    background-color: #000;
+    opacity: 0.6;
+    position: fixed;
+    top:0px;
+    left: 0px;
+    right: 0px;
+}
+
+.weibo {
+    background-color: #fff;
+    overflow: auto;
+    padding: 10px;
+    border-bottom: 1px dotted #ccc;
+    box-shadow: 2px 2px 5px #888888;
+}
+.weibo a {
+    text-decoration: none;
+}
+.weibo .image {
+    width: 80px;
+    float: left;
+}
+.weibo .image img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.weibo .content {
+    width: 650px;
+    float: left;
+}
+.weibo .content h3 {
+    margin: 0px;
+}
+.weibo .content h3 a{
+    font-size: 16px;
+    color: #222;
+}
+.weibo .content p {
+    font-size: 14px;
+    line-height:1.5;
+    margin: 6px 0px;
+}
+.weibo .content .other {
+    font-size: 12px;
+    color: #666666;
+}
+.weibo .content .other a {
+    color: #666;
+}
+.weibo .content .other .right a{
+    padding: 0px 10px;
+}

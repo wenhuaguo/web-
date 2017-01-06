@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <appender name="sout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--logger{36}最多36个字符如果超过36个在控制台信息就会隐藏起来-->
+            <pattern>%d{MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--输出日志到文件中-->
+    <!--<appender name="fileOut" class="ch.qos.logback.core.FileAppender">-->
+        <!--&lt;!&ndash;日志文件地址&ndash;&gt;-->
+        <!--<file>D:/logback.log</file>-->
+        <!--&lt;!&ndash;追加模式后面日志追加到前面日志后面，如果不是追加模式将会后面日志覆盖前面日志&ndash;&gt;-->
+        <!--<append>true</append>-->
+        <!--<encoder>-->
+            <!--<pattern>%d{MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+    <!--创建一个节点。是键值对将日志输出到文件夹里面-->
+    <property name="LOG_HOME" value="D:/logs" />
+    <!--按天输出日志到文件中-->
+    <appender name="dailyOut" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--policy策略，产生日志的策略是什么根据时间或者大小等不同-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <!--日志过滤器class表示根据什么进行过滤-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>//从哪个级别开始过滤
+        </filter>
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <root level="trace">
+        <!--level表示以什么级别输出到什么地方去,将日志输出到不同的输出源-->
+        <appender-ref ref="sout" />
+        <appender-ref ref="dailyOut" />
+        <!--<appender-ref ref="fileOut" />-->
+    </root>
+</configuration>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ehcache>
+    <!--java.io.tmpdir获取当前操作系统登录用户的临时文件夹路径-->
+    <diskStore path="java.io.tmpdir"/>
+    <!--<cache name="user"-->
+           <!--maxElementsInMemory="100"-->
+           <!--eternal="false"-->
+           <!--timeToIdleSeconds="30"-->
+           <!--timeToLiveSeconds="30"-->
+           <!--overflowToDisk="true"-->
+    <!--/>-->
+    <cache name="user"
+            maxElementsInMemory="100"
+            eternal="false"
+            timeToIdleSeconds="30"
+            timeToLiveSeconds="30"
+            overflowToDisk="true"
+    />
+    <cache name="book"
+           maxElementsInMemory="100"
+           eternal="false"
+           timeToIdleSeconds="30"
+           timeToLiveSeconds="30"
+           overflowToDisk="true"
+    />
+    <!--&lt;!&ndash;//存活时间当前时间-创建时间一般将存活时间和闲置时间设置为相同的&ndash;&gt;-->
+    <!--&lt;!&ndash;//闲置时间，最后访问时间-当前时间&ndash;&gt;-->
+    <!--//  是否允许往磁盘中写允许-->
+    <!--&lt;!&ndash;enternal永恒的永远的，是否永久存储的缓存区设置为一般设置为false&ndash;&gt;-->
+
+
+
+
+
+
+
+
+</ehcache>

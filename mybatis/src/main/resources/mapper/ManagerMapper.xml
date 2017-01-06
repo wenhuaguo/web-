@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.ManagerMapper" >
+    <!--开启二级缓存-->
+    <cache/>
+    <!--id该查询语句的唯一标示，parameterType参数的类型，resultType返回类型如果是自定义的pojo需要在config配置文件中配置别名，也可以不用配置写包的完全限定名
+    将select节点的useCache属性设置为false后搜索结果将不会放入到缓存中去
+    -->
+    <select id="findManagerById" parameterType="int" resultType="Manager" useCache="false">
+      SELECT * from manager where id = #{id}
+    </select>
+    <!--执行插入语句
+        获得新添加的用户的自动增长的主键值
+        flushCache默认是true也就是myBatis默认缓存对于增删改（数据库发生更改）会刷新缓存也就是清空缓存
+        该为false后执行增删改会不刷新缓存，当再执行select语句时会将执行结果放入到缓存中去
+    -->
+    <insert id="save" parameterType="Manager" flushCache="false" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO manager(name,password) VALUES (#{name},#{password})
+    </insert>
+    <!--执行删除语句-->
+    <delete id="del" parameterType="int">
+        DELETE from manager where id = #{id}
+    </delete>
+    <!--执行修改语句-->
+    <update id="update" parameterType="Manager">
+        UPDATE manager set name = #{name},password = #{password} where id=#{id}
+    </update>
+    <!--查询所有的用户-->
+    <select id="findAll" resultType="Manager">
+        SELECT * from manager
+    </select>
+    <select id="findByNameAndPassword" resultType="Manager">
+        select * from manager where name=#{name} and password = #{password}
+    </select>
+
+    <select id="findByParam" resultType="Manager">
+        SELECT * from manager
+        <trim prefix="where" suffixOverrides="and|or">
+            <if test="name != null and name != ''">
+                name = #{name} or
+            </if>
+            <if test="password != null and password != ''">
+                 password = #{password}
+            </if>
+        </trim>
+        <!--<where>-->
+          <!--<if test="name != null and name != ''">-->
+            <!--name = #{name}-->
+          <!--</if>-->
+          <!--<if test="password != null and password != ''">-->
+              <!--and password = #{password}-->
+          <!--</if>-->
+        <!--</where>-->
+        <!--<choose>-->
+          <!--<when test="name != null and name != ''">-->
+              <!--name = #{name}-->
+          <!--</when>-->
+            <!--<when test="password != null and password != ''">-->
+               <!--password = #{password}-->
+            <!--</when>-->
+            <!--<otherwise>-->
+            <!--</otherwise>-->
+        <!--</choose>-->
+    </select>
+    <select id="findByIds" resultType="Manager">
+        SELECT * from manager where id in
+        <foreach collection="list" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="findParams" resultType="com.kaishengit.pojo.Manager">
+        select * from manager where name=#{param1} and password = #{param2}
+    </select>
+    <insert id="batchSave">
+        insert into manager(name,password) VALUES
+        <foreach collection="list" item="manager" separator="," >
+            (#{manager.name},#{manager.password})
+        </foreach>
+    </insert>
+</mapper>
