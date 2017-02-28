@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ssm-entity/ssm-entity.iml" filepath="$PROJECT_DIR$/ssm-entity/ssm-entity.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ssm-parent/ssm-parent.iml" filepath="$PROJECT_DIR$/ssm-parent/ssm-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/ssm-services/ssm-services.iml" filepath="$PROJECT_DIR$/ssm-services/ssm-services.iml" />
       <module fileurl="file://$PROJECT_DIR$/ssm-util/ssm-util.iml" filepath="$PROJECT_DIR$/ssm-util/ssm-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/ssm-web/ssm-web.iml" filepath="$PROJECT_DIR$/ssm-web/ssm-web.iml" />

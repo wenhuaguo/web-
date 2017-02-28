@@ -12,10 +12,10 @@
 
   <!--告诉parent父模块哪些是它的子模块-->
   <modules>
-    <module>../ssm-entity</module>
-    <module>../ssm-services</module>
-    <module>../ssm-util</module>
-    <module>../ssm-web</module>
+    <module>ssm-entity</module>
+    <module>ssm-services</module>
+    <module>ssm-util</module>
+    <module>ssm-web</module>
   </modules>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
