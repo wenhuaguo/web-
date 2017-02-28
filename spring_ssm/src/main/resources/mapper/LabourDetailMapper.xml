@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.LabourDetailMapper">
+    <insert id="save">
+        INSERT INTO t_labour_detail(work_type,unit_money,rent_num,total,rent_id)
+        VALUES
+        <foreach collection="list" separator="," item="obj">
+            (#{obj.workType},#{obj.unitMoney},#{obj.rentNum},#{obj.total},#{obj.rentId})
+        </foreach>
+    </insert>
+    <select id="findLabourRentDetail" resultType="com.kaishengit.pojo.LabourDetail">
+        SELECT * FROM t_labour_detail  WHERE rent_id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+    <property name="realm" ref="shiroDbRealm"/>
+    <property name="cacheManager" ref="cacheManager"/>
+    <!--设置securityManager安全管理器的rememberMeManager-->
+    <!--<property name="rememberMeManager" ref="rememberMeManager"/>-->
+</bean>
+    <!--<bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">-->
+        <!--<property name="usernameParam" value="userName"/>-->
+        <!--<property name="passwordParam" value="password"/>-->
+        <!--<property name="rememberMeParam" value="rememberMe"/>-->
+        <!--<property name="loginUrl" value="/setting/device/"/>-->
+    <!--</bean>-->
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!--登录地址-->
+        <property name="loginUrl" value="/"/>
+        <!--登录成功后的地址-->
+        <property name="successUrl" value="/home"/>
+        <!--没有权限给用户的提示页面-->
+        <property name="unauthorizedUrl" value="/403"/>
+        <!--权限配置-->
+        <property name="filterChainDefinitions">
+            <value>
+                /static/** = anon
+                /wx/** = anon
+                /user=roles[role_admin]
+                /setting/** = roles[role_admin]
+                <!--路径拦截之前是authc所有路径都需要登录才能访问，
+                改为拦截级别设置为user之后表示访问该地址的用户是身份验证通过或rememberMe登录的都可以
+                authc表示用户访问该地址必须身份验证才可以通过
+                -->
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+</beans>

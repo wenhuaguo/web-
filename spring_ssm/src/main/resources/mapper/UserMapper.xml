@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.UserMapper">
+    <insert id="add" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user(user_name,password,mobile) VALUES (#{userName},#{password},#{mobile})
+    </insert>
+
+    <select id="findAll" parameterType="User" resultMap="userMap">
+        SELECT t_user.*,tr.view_name,tr.role_name,tr.id AS role_id
+        FROM t_user
+        LEFT JOIN t_user_role tur ON tur.user_id = t_user.id
+        LEFT JOIN t_role tr ON tr.id = tur.role_id
+    </select>
+    <resultMap id="userMap" type="User">
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+        <collection property="roleList" ofType="Role">
+            <id property="id" column="role_id" />
+            <result property="roleName" column="role_name"/>
+            <result property="ViewName" column="view_name"/>
+        </collection>
+    </resultMap>
+    <delete id="del" parameterType="int">
+        DELETE from t_user WHERE id = #{userId}
+    </delete>
+
+    <select id="findById" parameterType="int" resultMap="userMap">
+        <include refid="selectUserAndRole"/>
+         WHERE t_user.id =  #{id}
+    </select>
+
+    <update id="update" parameterType="User">
+        UPDATE t_user set user_name=#{userName},password=#{password} where id=#{id}
+    </update>
+    <sql id="selectUserAndRole">
+        SELECT t_user.*,tr.view_name,tr.role_name,tr.id AS role_id
+        FROM t_user
+        LEFT JOIN t_user_role tur ON tur.user_id = t_user.id
+        LEFT JOIN t_role tr ON tr.id = tur.role_id
+    </sql>
+    <select id="totals" resultType="java.lang.Long">
+        SELECT count(*) from t_user
+        <if test="queryRole != null and queryRole != ''">
+            LEFT JOIN t_user_role tur on tur.role_id = t_user.id
+        </if>
+        <where>
+          <if test="queryName != null and queryRole != ''">
+               user_name LIKE concat('%',#{queryName},'%')
+          </if>
+          <if test="queryRole != null and queryRole != ''">
+              and tur.role_id = #{queryRole}
+          </if>
+        </where>
+    </select>
+    <select id="findUserBySearchParam" resultMap="userMapN1">
+        SELECT * from t_user
+        <if test="queryRole != null and queryRole != ''">
+            LEFT JOIN t_user_role tur on tur.user_id = t_user.id
+        </if>
+        <where>
+             <if test="queryRole != null and queryRole != ''">
+                 tur.role_id = #{queryRole}
+             </if>
+             <if test="queryName != null and queryName != ''">
+                 and t_user.user_name like concat('%',#{queryName},'%')
+             </if>
+       </where>
+        LIMIT ${pageStar},${pageSize}
+    </select>
+    <select id="findByUserName" resultType="com.kaishengit.pojo.User">
+        select * from t_user WHERE user_name = #{userName};
+    </select>
+    <resultMap id="userMapN1" type="User">
+        <id column="id" property="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+        <collection property="roleList" ofType="Role" column="id" select="com.kaishengit.mapper.RoleMapper.findByUserId"/>
+    </resultMap>
+</mapper>        

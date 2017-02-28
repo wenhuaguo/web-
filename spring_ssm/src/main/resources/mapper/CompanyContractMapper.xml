@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.CompanyContractMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_company_contract(rent_company,address,company_tel,rent_time,back_time,legal_represent,legal_tel,card_num,fax,total_price,pre_cost,last_cost,serial_num,create_user,rent_days,state)
+        VALUES (#{rentCompany},#{address},#{companyTel},#{rentTime},#{backTime},#{legalRepresent},#{legalTel},#{cardNum},#{fax},#{totalPrice},#{preCost},#{lastCost},#{serialNum},#{createUser},#{rentDays},#{state})
+    </insert>
+    <update id="updateCost">
+        UPDATE t_company_contract set total_price = #{totalPrice},pre_cost=#{preCost},last_cost=#{lastCost} where id = #{id}
+    </update>
+    <update id="changeState">
+        UPDATE t_company_contract set state = #{state} where id = #{id}
+    </update>
+    <select id="findCompanyContractBySerialNum" resultType="com.kaishengit.pojo.CompanyContract">
+        SELECT * from t_company_contract WHERE serial_num = #{serialNum}
+    </select>
+    <select id="findCompanyContractById" resultType="com.kaishengit.pojo.CompanyContract">
+        SELECT * from t_company_contract WHERE id = #{companyId}
+    </select>
+    <select id="findCompanyContractByQueryParam" resultType="com.kaishengit.pojo.CompanyContract">
+        SELECT * FROM t_company_contract 
+        <where>
+            <if test="rentCompany != null and rentCompany != ''">
+                rent_company like concat('%',#{rentCompany},'%')
+            </if>
+        </where>
+        limit ${start},${length}
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        SELECT count(*) FROM t_company_contract
+    </select>
+    <select id="filteredCount" resultType="java.lang.Long">
+        SELECT count(*) FROM t_company_contract
+        <where>
+            <if test="rentCompant != null and rentCompany != ''">
+                rent_company LIKE concat('%',#{rent_company},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

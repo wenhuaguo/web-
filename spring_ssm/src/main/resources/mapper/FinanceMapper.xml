@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.FinanceMapper">
+    <insert id="saveFinanceAssembly">
+        INSERT into
+        t_finance(serial_num,state,money,confirm_user,confirm_date,create_user,create_date,`module`,`type`,remark,module_serial)
+        VALUES (#{serialNum},#{state},#{money},#{confirmUser},#{confirmDate},#{createUser},#{createDate},#{module},#{type},#{remark},#{moduleSerial})
+    </insert>
+    <update id="updateCost">
+        UPDATE t_finance set money = #{money},state = #{state},confirm_user=#{confirmUser},confirm_date=#{createDate} where serial_num = #{serialNum}
+    </update>
+    <update id="updateState">
+        UPDATE t_finance set state = #{state},confirm_user=#{confirmUser},confirm_date=#{createDate}
+        where id = #{id}
+    </update>
+    <select id="findFinanceBySerialNum" resultType="com.kaishengit.pojo.Finance">
+        SELECT * FROM t_finance WHERE serial_num = #{serialNum}
+    </select>
+    <select id="findFinanceByQueryParam" resultType="com.kaishengit.pojo.Finance">
+        SELECT * FROM t_finance
+        <where>
+            <if test="date != null and date != ''">
+                create_date = #{date}
+            </if>
+        </where>
+        order by confirm_date,create_date desc
+        limit ${start},${length}
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        SELECT count(*) FROM t_finance
+    </select>
+    <select id="filterCount" resultType="java.lang.Long">
+        SELECT count(*) FROM t_finance
+        <where>
+            <if test="date !=  null and date != ''">
+                create_date = #{date}
+            </if>
+        </where>
+    </select>
+    <select id="findFinanceById" resultType="com.kaishengit.pojo.Finance">
+        SELECT * from t_finance WHERE id = #{id}
+    </select>
+    <select id="findFinanceByCreateDate" resultType="com.kaishengit.pojo.Finance">
+        SELECT * FROM t_finance WHERE create_date = #{date}
+    </select>
+    <select id="findNameAndValueByDate" resultType="java.util.Map">
+        SELECT `module` as name,floor(sum(money)) as `value` FROM t_finance tf WHERE tf.confirm_user is not NULL and confirm_date = #{date} and `type`=#{type} GROUP by tf.MODULE
+    </select>
+</mapper>

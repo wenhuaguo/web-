@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="mysrping:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="srping-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="mysrping:war exploded" />
+    </root>
+  </artifact>
+</component>

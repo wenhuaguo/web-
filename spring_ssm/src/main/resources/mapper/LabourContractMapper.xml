@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.LabourContractMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_labour_contract(rent_company,address,company_tel,rent_time,back_time,legal_represent,legal_tel,card_num,total_price,pre_cost,last_cost,serial_num,create_user,rent_days,state)
+        VALUES (#{rentCompany},#{address},#{companyTel},#{rentTime},#{backTime},#{legalRepresent},#{legalTel},#{cardNum},#{totalPrice},#{preCost},#{lastCost},#{serialNum},#{createUser},#{rentDays},#{state})
+    </insert>
+    <update id="updateCost">
+        UPDATE t_labour_contract set total_price = #{totalPrice},pre_cost=#{preCost},last_cost=#{lastCost} where id = #{id}
+    </update>
+    <update id="updateState">
+        UPDATE t_labour_contract set state = #{state} where id = #{id}
+    </update>
+    <select id="findCompanyContractBySerialNum" resultType="com.kaishengit.pojo.LabourContract">
+        SELECT * FROM t_labour_contract WHERE serial_num = #{id}
+    </select>
+    <select id="findLabourContractByQueryParam" resultType="com.kaishengit.pojo.LabourContract">
+        SELECT * FROM t_labour_contract
+        limit ${start},${length}
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        SELECT count(*) FROM t_labour_contract
+    </select>
+    <select id="findLabourContractById" resultType="com.kaishengit.pojo.LabourContract">
+        SELECT * FROM t_labour_contract where id = #{id}
+    </select>
+</mapper>
